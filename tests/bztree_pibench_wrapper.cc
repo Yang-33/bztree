@@ -48,6 +48,7 @@ bztree::BzTree *create_new_tree(const tree_options_t &opt) {
   return bztree;
 }
 
+#ifdef PMDK
 bztree::BzTree *recovery_from_pool(const tree_options_t &opt) {
   pmwcas::InitLibrary(
       pmwcas::PMDKAllocator::Create(opt.pool_path.c_str(), TEST_LAYOUT_NAME,
@@ -60,14 +61,23 @@ bztree::BzTree *recovery_from_pool(const tree_options_t &opt) {
 
   auto tree = reinterpret_cast<bztree::BzTree *>(
       pmdk_allocator->GetRoot(sizeof(bztree::BzTree)));
+
   tree->Recovery();
   return tree;
 }
+#endif
 
 bztree_wrapper::bztree_wrapper(const tree_options_t &opt) {
   if (FileExists(opt.pool_path.c_str())) {
+#ifdef PMDK
     std::cout << "recovery from existing pool." << std::endl;
     tree_ = recovery_from_pool(opt);
+#else
+    std::cerr << "recovery from existing pool is not supported since the "
+                 "current mode is not PMDK."
+              << std::endl;
+    std::abort();
+#endif
   } else {
     std::cout << "creating new tree on pool." << std::endl;
     tree_ = create_new_tree(opt);

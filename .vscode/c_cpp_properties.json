@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+                // "${workspaceFolder}/out/default/glog_external-prefix/include",
+                // "${workspaceFolder}/out/default/gflags_external-prefix/include",
+                // "${workspaceFolder}/out/default/boost_external-prefix/include"
+            ],
+            "defines": [
+                "YANG33"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

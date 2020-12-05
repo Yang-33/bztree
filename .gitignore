@@ -36,6 +36,5 @@
 # IDE related things
 cmake-build*
 .idea
-.vscode
 build
 release
